@@ -16,5 +16,6 @@ public interface AsistenciaDao {
 	
 	List<MarcasEmpleado> listadoMarcasFiltro(int mes, int anio, String estado);
 	
+	Object findEmpleadoHorarios(String id);
 	
 }

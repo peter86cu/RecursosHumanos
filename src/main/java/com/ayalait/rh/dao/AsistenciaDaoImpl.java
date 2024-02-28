@@ -33,7 +33,15 @@ public class AsistenciaDaoImpl implements AsistenciaDao {
 
 	@Override
 	public List<MarcasEmpleado> listadoMarcasFiltro(int mes, int anio, String estado) {
+		if(!estado.equalsIgnoreCase("TODAS"))
 		return daoAsistencia.findMarcasPorFiltro(mes, anio, estado);
+		return daoAsistencia.findMarcasPorFiltroAll(mes, anio);
+	}
+
+	@Override
+	public Object findEmpleadoHorarios(String id) {
+		
+		return daoAsistencia.findEmpleadoHorarios(id);
 	}
 	
 	

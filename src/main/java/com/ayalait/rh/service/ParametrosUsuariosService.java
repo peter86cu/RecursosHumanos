@@ -21,5 +21,6 @@ public interface ParametrosUsuariosService {
     
     ResponseEntity<String> listadoMesesPago();
 
+    ResponseEntity<String> listadoBanco();
 
 }

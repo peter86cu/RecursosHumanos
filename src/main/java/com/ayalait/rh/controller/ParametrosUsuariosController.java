@@ -30,6 +30,12 @@ public class ParametrosUsuariosController {
 
 	}
 	
+	@GetMapping(value = "parametros/banco", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<String> listadoBanco() throws Exception {
+		return service.listadoBanco();
+
+	}
 	
 	@GetMapping(value = "parametros/Tipo-cambio", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)

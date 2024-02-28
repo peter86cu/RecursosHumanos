@@ -19,6 +19,8 @@ public interface EmpleadoDao {
 	void eliminarEmpleadoSalud(String idEmpleado);
 
 	void eliminarEmpleadoCargo(String idEmpleado);
+	
+	void eliminarEmpleadoBanco(String idEmpleado);
 
 	Empleado validarEmpleadoPorDocumento(String documento);
 
@@ -37,6 +39,8 @@ public interface EmpleadoDao {
 	void agregarSaludEmpleado(EmpleadoSalud salud);
 
 	void agregarDatosCargo(EmpleadoCargo cargo);
+	
+	void agregarBancoCargo(EmpleadoBanco banco);
 	
 	List<Object[]> obtenerCalendarioEmpleado(String id,int mes, int anio);
 	

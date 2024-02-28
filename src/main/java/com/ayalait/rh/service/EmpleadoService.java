@@ -21,6 +21,8 @@ public interface EmpleadoService {
 	ResponseEntity<String> agregarTituloEmpleado(String datos);
 
 	ResponseEntity<String> agregarSaludEmpleado(String datos);
+	
+	ResponseEntity<String> agregarBancoEmpleado(String datos);
 
 	ResponseEntity<String> agregarCargoEmpleado(String datos);
 
@@ -33,6 +35,8 @@ public interface EmpleadoService {
 	ResponseEntity<String> eliminarEmpleadoSalud(String idEmpleado);
 
 	ResponseEntity<String> eliminarEmpleadoCargo(String idEmpleado);
+	
+	ResponseEntity<String> eliminarEmpleadoBanco(String idEmpleado);
 	
 	ResponseEntity<String> validarEmpleadoPorDocumento(String documento);
 	

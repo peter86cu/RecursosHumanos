@@ -52,6 +52,13 @@ public class AsistenciaController {
 		return service.listadoMarcasFiltro(mes, anio, estado);
 
 	}
+	
+	@PostMapping(value = "empleado/marcas/procesar-empleado", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> procesarMarcaManualEmpleado(@RequestBody String datos,HttpServletRequest request)
+			throws Exception {
+		return service.procesarMarcaEmpleado(datos);
+
+	}
 
 	
 	/*@DeleteMapping(value="empleado/delete/cargo",produces=MediaType.APPLICATION_JSON_VALUE)

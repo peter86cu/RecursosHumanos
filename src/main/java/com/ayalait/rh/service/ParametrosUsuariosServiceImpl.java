@@ -136,4 +136,19 @@ public class ParametrosUsuariosServiceImpl implements ParametrosUsuariosService 
             return new ResponseEntity<String>(e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
+	@Override
+	public ResponseEntity<String> listadoBanco() {
+		try {
+			List<Banco> lstBanco= service.listadoBanco();
+			if(!lstBanco.isEmpty()) {
+                return new ResponseEntity<String>(new Gson().toJson(lstBanco), HttpStatus.OK);
+
+			}else {
+				return new ResponseEntity<String>("No existen bancos en la base de datos.",
+                        HttpStatus.BAD_REQUEST);	
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<String>(e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
 }

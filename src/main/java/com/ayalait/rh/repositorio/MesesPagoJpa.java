@@ -14,6 +14,6 @@ import com.ayalait.rh.modelo.*;
 public interface MesesPagoJpa extends JpaRepository<MesPago, Integer>{
 	
 	
-	List<MesPago> findByEstado(int estado);
+	List<MesPago> findByEstadoOrderByIdDesc(int estado);
 	
 	}

@@ -31,6 +31,9 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
 	
 	@Autowired
 	CalendarioHorarioEmpleadoJpa daoHorario;
+	
+	@Autowired
+	EmpleadoBancoJpa daoEmplBanco;
 
 	@Override
 	public void agregarEmpleado(Empleado empleado) {
@@ -129,6 +132,17 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
 	@Override
 	public List<Object[]> obtenerCalendarioEmpleadoDia(String id,int dia,int mes, int anio) {
 		return daoHorario.findByCalendarioPorEmpleadoyMesyDia(id, mes, anio, dia);
+	}
+
+	@Override
+	public void agregarBancoCargo(EmpleadoBanco banco) {
+		daoEmplBanco.save(banco);
+		
+	}
+
+	@Override
+	public void eliminarEmpleadoBanco(String idEmpleado) {
+		daoEmplBanco.deleteByIdempleado(idEmpleado);
 	}
 
 	

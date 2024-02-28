@@ -39,6 +39,9 @@ public class ParametrosUsuariosDaoImpl implements ParametrosUsuariosDao{
     @Autowired
 	MesesPagoJpa daoMesesPago;
     
+    @Autowired
+    BancoJpa daoBanco;
+    
 
 	@Override
 	public List<TipoDocumento> listadoTipoDoc() {		
@@ -77,6 +80,11 @@ public class ParametrosUsuariosDaoImpl implements ParametrosUsuariosDao{
 	
 	@Override
 	public List<MesPago> listadoMesesPago(int estado) {
-		return daoMesesPago.findByEstado(estado);
+		return daoMesesPago.findByEstadoOrderByIdDesc(estado);
+	}
+
+	@Override
+	public List<Banco> listadoBanco() {
+		return daoBanco.findAll();
 	}
 }

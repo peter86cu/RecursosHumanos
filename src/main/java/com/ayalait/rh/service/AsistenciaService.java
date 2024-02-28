@@ -5,6 +5,8 @@ import java.sql.Date;
 
 import org.springframework.http.ResponseEntity;
 
+import com.ayalait.rh.modelo.MarcasEmpleado;
+
 
 public interface AsistenciaService {
 	ResponseEntity<String> asistenciaEmpleado(String datos);
@@ -14,5 +16,7 @@ public interface AsistenciaService {
 	ResponseEntity<String> procesarMarcas(int mes, int anio, String estado);
 	
 	ResponseEntity<String>  listadoMarcasFiltro(int mes, int anio, String estado);
+	
+	ResponseEntity<String> procesarMarcaEmpleado(String item);
 
 }

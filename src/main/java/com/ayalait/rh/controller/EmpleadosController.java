@@ -90,6 +90,14 @@ public class EmpleadosController {
 
 	}
 	
+	@PostMapping(value = "empleado/add/banco", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> guardarBancoEmpleado(@RequestBody String datos, HttpServletRequest request)
+			throws Exception {
+
+		return service.agregarBancoEmpleado(datos);
+
+	}
+	
 	@DeleteMapping(value="empleado/delete/titulo",produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<String> eliminarEmpleadoTitulo(@RequestParam("id") String id) {
@@ -109,6 +117,13 @@ public class EmpleadosController {
 	public ResponseEntity<String> eliminarEmpleadoSalud(@RequestParam("id") String id) {
 		
 		return service.eliminarEmpleadoSalud(id);
+	}
+	
+	@DeleteMapping(value="empleado/delete/banco",produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<String> eliminarEmpleadoBanco(@RequestParam("id") String id) {
+		
+		return service.eliminarEmpleadoBanco(id);
 	}
 	
 	

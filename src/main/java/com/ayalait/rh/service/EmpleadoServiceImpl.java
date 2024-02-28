@@ -232,16 +232,16 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 						HorarioLaboral horario = new HorarioLaboral();
 						Object[] objArray = lstCalendario.get(i);
 						horario.setIdHorario((String)objArray[0]);
-						horario.setDiaSemana((String)objArray[1]);
+						horario.setDiaSemana((String)objArray[3]);
 						horario.setDia((int)objArray[2]);
-						horario.setMes((int)objArray[3]);
-						horario.setAnnio((int)objArray[4]);
-						java.sql.Time sqlTimeI = (Time)objArray[5];
+						horario.setMes((int)objArray[6]);
+						horario.setAnnio((int)objArray[1]);
+						java.sql.Time sqlTimeI = (Time)objArray[4];
 						horario.setHoraInicio(sqlTimeI.toString());
-						java.sql.Time sqlTimeF = (Time)objArray[6];
+						java.sql.Time sqlTimeF = (Time)objArray[5];
 						horario.setHoraFin(sqlTimeF.toString());
 						//if((int)objArray[8]==1) {
-							horario.setTrabaja((int)objArray[8]);
+							horario.setTrabaja((int)objArray[7]);
 						//}else {
 							//horario.setTrabaja(false);
 						//}
@@ -260,6 +260,29 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 			}else {
 				return new ResponseEntity<String>("No existe empleado con el número de documento "+documento, HttpStatus.BAD_REQUEST);
 			}
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+
+	@Override
+	public ResponseEntity<String> agregarBancoEmpleado(String datos) {
+		try {
+			EmpleadoBanco request = new Gson().fromJson(datos, EmpleadoBanco.class);
+			dao.agregarBancoCargo(request);
+			return new ResponseEntity<String>("Datos guardados.", HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+
+	@Override
+	public ResponseEntity<String> eliminarEmpleadoBanco(String idEmpleado) {
+		try {
+			dao.eliminarEmpleadoBanco(idEmpleado);
+			return new ResponseEntity<String>("Rollback banco empleado", HttpStatus.OK);
+
 		} catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 		}
