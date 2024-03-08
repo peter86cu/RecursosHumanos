@@ -18,10 +18,10 @@ import com.ayalait.rh.modelo.HorarioLaboral;
 
 public interface CalendarioHorarioEmpleadoJpa extends JpaRepository<HorarioLaboral, String>{
 	
-	@Query(value="SELECT cl.* FROM  calendariohorariolaboral cl JOIN calendarioempleado ce ON (ce.idCalendario=cl.idCalendario) WHERE ce.idempleado=:idempleado AND cl.mes =:mes AND cl.annio=:anio", nativeQuery=true)
+	@Query(value="SELECT cl.* FROM  calendariohorariolaboral cl JOIN calendarioempleado ce ON (ce.id_calendario=cl.id_calendario) WHERE ce.id_empleado=:idempleado AND cl.mes =:mes AND cl.annio=:anio", nativeQuery=true)
 	List<Object[]> findByCalendarioPorEmpleadoyMes(String idempleado, int mes, int anio);
 	
-	@Query(value="SELECT cl.* FROM  calendariohorariolaboral cl JOIN calendarioempleado ce ON (ce.idCalendario=cl.idCalendario) WHERE ce.idempleado=:idempleado AND cl.dia =:dia AND cl.mes =:mes AND cl.annio=:anio", nativeQuery=true)
+	@Query(value="SELECT cl.* FROM  calendariohorariolaboral cl JOIN calendarioempleado ce ON (ce.id_calendario=cl.id_calendario) WHERE ce.id_empleado=:idempleado AND cl.dia =:dia AND cl.mes =:mes AND cl.annio=:anio", nativeQuery=true)
 	List<Object[]> findByCalendarioPorEmpleadoyMesyDia(String idempleado, int mes, int anio, int dia);
 	
 	}

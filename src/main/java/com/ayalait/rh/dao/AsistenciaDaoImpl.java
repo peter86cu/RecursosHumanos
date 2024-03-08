@@ -15,6 +15,8 @@ public class AsistenciaDaoImpl implements AsistenciaDao {
 
 	@Autowired
 	AsistenciaJpa daoAsistencia;
+	
+	
 
 	@Override
 	public void asistenciaEmpleado(MarcasEmpleado marca) {
@@ -43,6 +45,8 @@ public class AsistenciaDaoImpl implements AsistenciaDao {
 		
 		return daoAsistencia.findEmpleadoHorarios(id);
 	}
+
+	
 	
 	
 }

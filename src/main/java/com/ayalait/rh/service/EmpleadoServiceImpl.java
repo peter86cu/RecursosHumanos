@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 
 import com.ayalait.rh.modelo.*;
 import com.ayalait.rh.vo.*;
+import com.ayalait.utils.ErrorState;
 import com.ayalait.rh.dao.*;
 
 @Service
@@ -24,6 +25,8 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
 	@Autowired
 	EmpleadoDao dao;
+	
+	ErrorState error = new ErrorState();
 
 	@Override
 	public ResponseEntity<String> agregarEmpleado(String datos) {
@@ -231,15 +234,15 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 					for (int i = 0; i < lstCalendario.size(); i++) {
 						HorarioLaboral horario = new HorarioLaboral();
 						Object[] objArray = lstCalendario.get(i);
-						horario.setIdHorario((String)objArray[0]);
-						horario.setDiaSemana((String)objArray[3]);
+						horario.setId_horario((String)objArray[0]);
+						horario.setDia_semana((String)objArray[3]);
 						horario.setDia((int)objArray[2]);
 						horario.setMes((int)objArray[6]);
 						horario.setAnnio((int)objArray[1]);
 						java.sql.Time sqlTimeI = (Time)objArray[4];
-						horario.setHoraInicio(sqlTimeI.toString());
+						horario.setHora_inicio(sqlTimeI.toString());
 						java.sql.Time sqlTimeF = (Time)objArray[5];
-						horario.setHoraFin(sqlTimeF.toString());
+						horario.setHora_fin(sqlTimeF.toString());
 						//if((int)objArray[8]==1) {
 							horario.setTrabaja((int)objArray[7]);
 						//}else {
@@ -254,7 +257,9 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 					return new ResponseEntity<String>(new Gson().toJson(lstValores), HttpStatus.OK);
 
 				}else {
-					return new ResponseEntity<String>("No existe calendario generado para el empleado "+empleado.getNombre()+" "+empleado.getApellidos(), HttpStatus.BAD_REQUEST);
+					error.setCode(8000);
+					error.setMenssage("No existe calendario generado para el empleado "+empleado.getNombre()+" "+empleado.getApellidos());
+					return new ResponseEntity<String>(new Gson().toJson(error), HttpStatus.BAD_REQUEST);
 
 				}
 			}else {

@@ -18,28 +18,31 @@ public class CalendarioEmpleado implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String idCalendario;
+    private String id_calendario;
 
-    private String idempleado;
+    private String id_empleado;
     
 
     @OneToMany(mappedBy = "calendarioEmpleado", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HorarioLaboral> horariosLaborales;
 
-	public String getIdCalendario() {
-		return idCalendario;
+	
+
+
+	public String getId_calendario() {
+		return id_calendario;
 	}
 
-	public void setIdCalendario(String idCalendario) {
-		this.idCalendario = idCalendario;
+	public void setId_calendario(String id_calendario) {
+		this.id_calendario = id_calendario;
 	}
 
-	public String getIdempleado() {
-		return idempleado;
+	public String getId_empleado() {
+		return id_empleado;
 	}
 
-	public void setIdempleado(String idempleado) {
-		this.idempleado = idempleado;
+	public void setId_empleado(String id_empleado) {
+		this.id_empleado = id_empleado;
 	}
 
 	public List<HorarioLaboral> getHorariosLaborales() {

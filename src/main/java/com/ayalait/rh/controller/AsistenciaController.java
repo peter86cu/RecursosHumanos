@@ -38,10 +38,9 @@ public class AsistenciaController {
 	}
 	
 	@PostMapping(value = "empleado/marcas/procesar", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> procesarMarcasPorMes(@RequestParam("mes") int mes,@RequestParam("anio") int anio,
-			@RequestParam("estado") String estado,HttpServletRequest request)
+	public ResponseEntity<String> procesarMarcasPorMes(@RequestParam("mes") int mes,@RequestParam("anio") int anio,HttpServletRequest request)
 			throws Exception {
-		return service.procesarMarcas(mes, anio, estado);
+		return service.procesarMarcas(mes, anio);
 
 	}
 	
@@ -60,6 +59,19 @@ public class AsistenciaController {
 
 	}
 
+	@PostMapping(value = "empleado/marcas/obtener-marcas-empleado", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> listadoMarcasEmpleadosDocumento(@RequestParam("documento") String documento,@RequestParam("mes") int mes,@RequestParam("anio") int anio,HttpServletRequest request)
+			throws Exception {
+		return service.listadoMarcasEmpleadoPorFecha(documento,mes, anio);
+
+	}
+	
+	@PostMapping(value = "empleado/calendario/generar", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> generarCalendarioEmpleado(HttpServletRequest request)
+			throws Exception {
+		return service.generarCalendarioEmpleado();
+
+	}
 	
 	/*@DeleteMapping(value="empleado/delete/cargo",produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)

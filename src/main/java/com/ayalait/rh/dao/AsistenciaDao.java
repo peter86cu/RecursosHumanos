@@ -18,4 +18,6 @@ public interface AsistenciaDao {
 	
 	Object findEmpleadoHorarios(String id);
 	
+	
+	
 }
