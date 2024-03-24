@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.ayalait.rh.modelo.*;
 
+
 public interface AsistenciaDao {
 
 	void asistenciaEmpleado(MarcasEmpleado marca);
@@ -17,6 +18,8 @@ public interface AsistenciaDao {
 	List<MarcasEmpleado> listadoMarcasFiltro(int mes, int anio, String estado);
 	
 	Object findEmpleadoHorarios(String id);
+	
+	CalendarioMesAProcesar obtenerMesAProcesar();
 	
 	
 	

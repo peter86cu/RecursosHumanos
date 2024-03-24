@@ -17,6 +17,10 @@ public interface AsistenciaService {
 	
 	ResponseEntity<String> listadoMarcasEmpleadoPorFecha(String documento,int mes, int anio);
 	
-	ResponseEntity<String> generarCalendarioEmpleado();
+	void generarCalendarioEmpleado(String accion,int mes, int anio);
+	
+	ResponseEntity<String> obtenerMesAProcesar();
+	
+	ResponseEntity<String> existeMesProcesado(int mes, int anio);
 
 }

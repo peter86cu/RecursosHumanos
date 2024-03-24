@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.ayalait.rh.modelo.*;
 import com.ayalait.rh.repositorio.AsistenciaJpa;
 import com.ayalait.rh.repositorio.CalendarioEmpleadoJpa;
+import com.ayalait.rh.repositorio.CalendarioHorarioEmpleadoJpa;
 import com.ayalait.rh.repositorio.EmpleadoJpaSpring;
 import com.ayalait.rh.repositorio.FeriadosJPA;
 import com.ayalait.rh.repositorio.HorasExtraJpa;
@@ -82,6 +83,9 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 	
 	@Autowired
     CalendarioEmpleadoJpa respoCaldEmpl;
+	
+	@Autowired
+	CalendarioHorarioEmpleadoJpa horarioLaboral;
 
 	@Override
 	public ResponseEntity<String> asistenciaEmpleado(String datos) {
@@ -132,7 +136,7 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 					}*/
 				}
 				Thread.sleep(1000L);
-				return new ResponseEntity<String>("Las marcas para la fecha: "+mes+"-"+anio + " se estan procesando correctamente.", HttpStatus.OK);
+				return new ResponseEntity<String>("Las marcas para la fecha: "+mes+"-"+anio + " se enviaron a procesar.", HttpStatus.OK);
 
 				
 			}else {
@@ -164,7 +168,7 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 					
 					String fechaIni = item.getCompositeId().getFecha()+" "+ item.getMarcaentrada();
 					String fechaFin = item.getCompositeId().getFecha()+" "+ item.getMarcasalida();
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 					// Convertir Date a LocalDateTime
 					LocalDateTime fechaHoraIni = LocalDateTime.parse(fechaIni, formatter);
@@ -303,8 +307,15 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 	
 	@Async
 	@Override
-	public ResponseEntity<String> generarCalendarioEmpleado() {
+	public void generarCalendarioEmpleado(String accion,int mes, int anio) {
 		try {
+			if(accion.equalsIgnoreCase("reprocesar")) {
+				List<HorarioLaboral> lstHorarios= horarioLaboral.existeCalendarioMes(mes, anio);
+				for(HorarioLaboral horario: lstHorarios) {
+					respoCaldEmpl.delete(horario.getCalendarioEmpleado());
+					horarioLaboral.delete(horario);
+				}
+			}
 			empleadoIterator = respositoryCaled.findAllEmpleadoHorarios().iterator();
 			while (empleadoIterator != null && empleadoIterator.hasNext()) {
 				Object[] objArray = (Object[]) empleadoIterator.next();
@@ -314,24 +325,22 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 				resultado.setHoras((int) objArray[1]);
 				resultado.setValor(objArray[2].toString());
 				resultado.setHorastrabajo(objArray[3].toString());
-
-				CalendarioEmpleado response= process(resultado);
+				CalendarioEmpleado response= process(resultado,mes, anio);
 				if(!response.getId_calendario().equalsIgnoreCase("") || !response.getHorariosLaborales().isEmpty()) {
 					respoCaldEmpl.save(response);
 				}
 			} 
 			
-			return new ResponseEntity<String>(new Gson().toJson("Se esta procesando el calendario de empleados para la fecha: "),HttpStatus.OK);
 
 			
 		} catch (Exception e) {
 			error.setCode(406);
 			error.setMenssage(e.getMessage());
-			return new ResponseEntity<String>(new Gson().toJson(error), HttpStatus.NOT_ACCEPTABLE);
+			//return new ResponseEntity<String>(new Gson().toJson(error), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	@Async
-	public CalendarioEmpleado process(ResultadoCalendario item) throws Exception {
+	public CalendarioEmpleado process(ResultadoCalendario item, int mesP, int anioP) throws Exception {
 		CalendarioEmpleado procesada = new CalendarioEmpleado();
 		List<HorarioLaboral> horariosLaborales  = new ArrayList<HorarioLaboral>();
 		LocalTime horaInicio= null;
@@ -354,7 +363,8 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 
 			 // Obtener la fecha actual
 	        LocalDate fechaActual = LocalDate.now();
-
+	       
+	        fechaActual = fechaActual.of(anioP, mesP, 1);
 	        // Obtener el mes siguiente
 	        //LocalDate fechaSiguiente = fechaActual.plusMonths(1);
 
@@ -443,6 +453,44 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 		
 
 		return procesada;
+	}
+
+	@Override
+	public ResponseEntity<String> obtenerMesAProcesar() {
+		try {
+			CalendarioMesAProcesar c= dao.obtenerMesAProcesar();
+			if(c!=null) {
+				return new ResponseEntity<String>(new Gson().toJson(c),HttpStatus.OK);
+
+			}else {
+				error.setCode(90020);
+				error.setMenssage("No se ha cargado mes a procesar. Consular a un administrador. ");
+				return new ResponseEntity<String>(new Gson().toJson(error),HttpStatus.BAD_REQUEST);
+
+			}
+		} catch (Exception e) {
+			error.setCode(406);
+			error.setMenssage(e.getMessage());
+			return new ResponseEntity<String>(new Gson().toJson(error), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+
+	@Override
+	public ResponseEntity<String> existeMesProcesado(int mes, int anio) {
+		try {
+			List<HorarioLaboral> horario= horarioLaboral.existeCalendarioMes(mes, anio);
+			if(!horario.isEmpty()) {
+				return new ResponseEntity<String>(new Gson().toJson(true),HttpStatus.OK);
+
+			}else {
+				return new ResponseEntity<String>(new Gson().toJson(false),HttpStatus.OK);
+
+			}
+		} catch (Exception e) {
+			error.setCode(406);
+			error.setMenssage(e.getMessage());
+			return new ResponseEntity<String>(new Gson().toJson(error), HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 
 	

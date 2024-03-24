@@ -6,9 +6,13 @@ import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import com.ayalait.rh.service.*;
+import com.google.gson.Gson;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +44,13 @@ public class AsistenciaController {
 	@PostMapping(value = "empleado/marcas/procesar", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> procesarMarcasPorMes(@RequestParam("mes") int mes,@RequestParam("anio") int anio,HttpServletRequest request)
 			throws Exception {
-		return service.procesarMarcas(mes, anio);
+		try {
+			return service.procesarMarcas(mes, anio);
+		} catch (Exception e) {
+			
+		}
+		return null;
+		
 
 	}
 	
@@ -66,10 +76,29 @@ public class AsistenciaController {
 
 	}
 	
+	@Async
 	@PostMapping(value = "empleado/calendario/generar", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> generarCalendarioEmpleado(HttpServletRequest request)
+	public ResponseEntity<String> generarCalendarioEmpleado(@RequestParam("accion") String accion,
+			@RequestParam("mes") int mes,@RequestParam("anio") int anio,HttpServletRequest request)
+			throws Exception {		 
+				service.generarCalendarioEmpleado(accion,mes, anio);
+				Thread.sleep(1000L);
+				return new ResponseEntity<String>(new Gson().toJson("Se esta procesando el calendario de empleados para la fecha: "),HttpStatus.OK);
+
+	}
+	
+	@GetMapping(value = "calendario/mes-a-procesar", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> obtenerMesAProcesar(HttpServletRequest request)
 			throws Exception {
-		return service.generarCalendarioEmpleado();
+		return service.obtenerMesAProcesar();
+
+	}
+	
+
+	@PostMapping(value = "calendario/existe-mes-procesar", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> existeMesAprocesar(@RequestParam("mes") int mes,@RequestParam("anio") int anio,HttpServletRequest request)
+			throws Exception {
+		return service.existeMesProcesado(mes, anio);
 
 	}
 	

@@ -263,10 +263,14 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
 				}
 			}else {
-				return new ResponseEntity<String>("No existe empleado con el número de documento "+documento, HttpStatus.BAD_REQUEST);
+				error.setCode(8000);
+				error.setMenssage("No existe empleado con el número de documento "+documento);
+				return new ResponseEntity<String>(new Gson().toJson(error), HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+			error.setCode(80010);
+			error.setMenssage(e.getMessage());
+			return new ResponseEntity<String>(new Gson().toJson(error), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 

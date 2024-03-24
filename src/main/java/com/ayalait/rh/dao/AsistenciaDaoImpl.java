@@ -1,5 +1,6 @@
 package com.ayalait.rh.dao;
 
+import com.ayalait.rh.modelo.*;
 import com.ayalait.rh.repositorio.*;
 
 import java.sql.Date;
@@ -8,7 +9,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.ayalait.rh.modelo.*;
 
 @Repository
 public class AsistenciaDaoImpl implements AsistenciaDao {
@@ -16,7 +16,8 @@ public class AsistenciaDaoImpl implements AsistenciaDao {
 	@Autowired
 	AsistenciaJpa daoAsistencia;
 	
-	
+	@Autowired
+	CalendarioAProcesarJpa daoProceso;
 
 	@Override
 	public void asistenciaEmpleado(MarcasEmpleado marca) {
@@ -45,6 +46,14 @@ public class AsistenciaDaoImpl implements AsistenciaDao {
 		
 		return daoAsistencia.findEmpleadoHorarios(id);
 	}
+
+	@Override
+	public CalendarioMesAProcesar obtenerMesAProcesar() {
+		
+		return daoProceso.findCalendarioAProcesar();
+	}
+
+	
 
 	
 	
