@@ -479,7 +479,7 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 	public ResponseEntity<String> existeMesProcesado(int mes, int anio) {
 		try {
 			List<HorarioLaboral> horario= horarioLaboral.existeCalendarioMes(mes, anio);
-			if(!horario.isEmpty()) {
+			if(horario.isEmpty()) {
 				return new ResponseEntity<String>(new Gson().toJson(true),HttpStatus.OK);
 
 			}else {

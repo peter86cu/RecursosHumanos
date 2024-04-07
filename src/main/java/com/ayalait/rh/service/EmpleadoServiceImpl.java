@@ -239,10 +239,10 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 						horario.setDia((int)objArray[2]);
 						horario.setMes((int)objArray[6]);
 						horario.setAnnio((int)objArray[1]);
-						java.sql.Time sqlTimeI = (Time)objArray[4];
-						horario.setHora_inicio(sqlTimeI.toString());
-						java.sql.Time sqlTimeF = (Time)objArray[5];
-						horario.setHora_fin(sqlTimeF.toString());
+						//java.sql.Time sqlTimeI = (Time)objArray[4];
+						horario.setHora_inicio((String)objArray[4]);
+						//java.sql.Time sqlTimeF = (Time)objArray[5];
+						horario.setHora_fin((String)objArray[5]);
 						//if((int)objArray[8]==1) {
 							horario.setTrabaja((int)objArray[7]);
 						//}else {
